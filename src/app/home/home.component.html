@@ -1,0 +1,16 @@
+<h1 class="title">TODO List</h1>
+
+<div class="container">
+  <div class="todo-list">
+      <app-todo-list
+      [key]="key"
+      (onKey)="onTodoListCreated($event)"
+    ></app-todo-list>
+  </div>
+
+  <div *ngIf="showUrlMessage" class="url-message">
+    <p>Your TODO List stored via URL: {{ url }}</p>
+    <p>Please save this URL to open this list in future.</p>
+  </div>
+</div>
+
