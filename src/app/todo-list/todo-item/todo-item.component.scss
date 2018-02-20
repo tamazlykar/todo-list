@@ -1,0 +1,31 @@
+@import '../variables';
+
+label {
+  margin-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button {
+  margin-left: auto;
+  border: 0;
+  background-color: transparent;
+  visibility: hidden;
+  color: $font-color;
+}
+
+:host:hover button {
+  visibility: visible;
+}
+
+.edit {
+  outline: none;
+  box-sizing: border-box;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  color: $font-color;
+}

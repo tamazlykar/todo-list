@@ -1,0 +1,21 @@
+<input
+  type="checkbox"
+  (change)="toggleCompletion()"
+  [(ngModel)]="todo.isCompleted"
+/>
+<label
+  *ngIf="!isEditing"
+  (dblclick)="startEditing()"
+>{{ todo.title }}</label>
+<input
+  #input
+  *ngIf="isEditing"
+  class="edit"
+  [value]="todo.title"
+  (blur)="cancelEditing()"
+  (keyup.enter)="stopEditing(input.value)"
+  (keyup.escape)="cancelEditing()"
+/>
+<button (click)="remove()">
+  <i class="fas fa-trash"></i>
+</button>

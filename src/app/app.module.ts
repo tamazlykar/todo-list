@@ -6,6 +6,8 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 
+import { TodoListModule } from './todo-list/todo-list.module';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -16,7 +18,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    TodoListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

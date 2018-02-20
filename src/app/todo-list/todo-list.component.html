@@ -1,0 +1,22 @@
+<div class="todo-list">
+  <div class="header">
+    <input
+      #todo
+      autofocus
+      placeholder="What needs to be done?"
+      (keyup.enter)="add(todo.value); todo.value=''"
+    />
+  </div>
+  <div class="list">
+    <app-todo-item
+      class="todo-item"
+      *ngFor="let todo of list"
+      [todo]="todo"
+      (onUpdate)="update($event)"
+      (onRemove)="remove($event)"
+    ></app-todo-item>
+  </div>
+  <div class="stat">
+    <label>{{ completedTodosCount }} of {{ list.length }} done</label>
+  </div>
+</div>
