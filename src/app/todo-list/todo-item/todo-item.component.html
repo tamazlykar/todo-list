@@ -1,17 +1,17 @@
 <input
   type="checkbox"
   (change)="toggleCompletion()"
-  [(ngModel)]="todo.isCompleted"
+  [(ngModel)]="todo.data.isCompleted"
 />
 <label
   *ngIf="!isEditing"
   (dblclick)="startEditing()"
->{{ todo.title }}</label>
+>{{ todo.data.title }}</label>
 <input
   #input
   *ngIf="isEditing"
   class="edit"
-  [value]="todo.title"
+  [value]="todo.data.title"
   (blur)="cancelEditing()"
   (keyup.enter)="stopEditing(input.value)"
   (keyup.escape)="cancelEditing()"

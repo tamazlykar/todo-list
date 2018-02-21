@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TodoListService } from './todo-list.service';
 import { Observable } from 'rxjs/observable';
-import { Todo, TodoId } from './todo.model';
+import { Todo, TodoMetadata, ChangeType } from './todo.model';
+import { Action, ActionType } from './todo-item/action.model';
 
 @Component({
   selector: 'app-todo-list',
@@ -12,7 +13,7 @@ export class TodoListComponent implements OnInit {
   @Input('key') listId: string;
   @Output() onKey = new EventEmitter<string>();
 
-  public list: TodoId[];
+  public list: TodoMetadata[];
   public completedTodosCount: number;
 
   constructor(private todoService: TodoListService) {
@@ -26,7 +27,13 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  public add(title: string) {
+  // Used by *ngFor to associate object or keys with particular DOM nodes
+  // Without trakBy todo-item.component will be recreated every time when we change data in the list
+  public trackById(index, todo: TodoMetadata) {
+    return todo.id;
+  }
+
+  public create(title: string) {
     title = title.trim();
     if (!title) {
       return;
@@ -38,15 +45,35 @@ export class TodoListComponent implements OnInit {
       return;
     }
 
-    this.todoService.add(new Todo(title));
+    this.add(new Todo(title));
   }
 
-  public update(todo: TodoId) {
+  public onItemAction(action: Action) {
+    switch (action.type) {
+      case ActionType.add:
+        this.add(action.todo.data);
+        break;
+      case ActionType.remove:
+        if (action.todo.type !== ChangeType.removed) {
+          this.remove(action.todo);
+        }
+        this.removeListData(action.todo);
+        break;
+      case ActionType.update:
+        this.update(action.todo);
+        break;
+    }
+  }
+
+  private add(todo: Todo) {
+    this.todoService.add(todo);
+  }
+
+  private update(todo: TodoMetadata) {
     this.todoService.update(todo);
   }
 
-  public remove(todo: TodoId) {
-    console.log(todo);
+  private remove(todo: TodoMetadata) {
     this.todoService.remove(todo);
   }
 
@@ -60,14 +87,55 @@ export class TodoListComponent implements OnInit {
 
   private fetchList(id: string) {
     this.todoService.fetch(id)
-      .subscribe((data: TodoId[]) => {
-        this.list = data;
-
-        let count = 0;
-        data.forEach(todo => {
-          if (todo.isCompleted === true) count++;
-        });
-        this.completedTodosCount = count;
+      .subscribe((data: TodoMetadata[]) => {
+        this.handleData(data);
+        this.countCompletedTodos();
       });
+  }
+
+  private countCompletedTodos() {
+    let count = 0;
+    this.list.forEach(todo => {
+      if (todo.data.isCompleted === true) count++;
+    });
+    this.completedTodosCount = count;
+  }
+
+  private handleData(todoList: TodoMetadata[]) {
+    todoList.forEach(todo => {
+      switch (todo.type) {
+        case ChangeType.added:
+          this.addListData(todo);
+          break;
+        case ChangeType.modified:
+        case ChangeType.removed:
+          this.updateListData(todo);
+          break;
+      }
+    })
+  }
+
+  private addListData(todo: TodoMetadata) {
+    this.list.push(todo);
+  }
+
+  private removeListData(todo: TodoMetadata) {
+    const index = this.list.findIndex((value: TodoMetadata) => {
+      return value.id === todo.id;
+    });
+
+    if (index === -1) return;
+
+    this.list.splice(index, 1);
+  }
+
+  private updateListData(todo: TodoMetadata) {
+    const index = this.list.findIndex((value: TodoMetadata) => {
+      return value.id === todo.id;
+    });
+
+    if (index === -1) return;
+
+    this.list[index] = todo;
   }
 }

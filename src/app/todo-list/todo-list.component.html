@@ -4,16 +4,15 @@
       #todo
       autofocus
       placeholder="What needs to be done?"
-      (keyup.enter)="add(todo.value); todo.value=''"
+      (keyup.enter)="create(todo.value); todo.value=''"
     />
   </div>
   <div class="list">
     <app-todo-item
       class="todo-item"
-      *ngFor="let todo of list"
+      *ngFor="let todo of list.reverse(); trackBy: trackById;"
       [todo]="todo"
-      (onUpdate)="update($event)"
-      (onRemove)="remove($event)"
+      (action)="onItemAction($event)"
     ></app-todo-item>
   </div>
   <div class="stat">

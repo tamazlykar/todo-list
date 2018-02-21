@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import * as firebase from 'firebase';
 import { DocumentReference, CollectionReference } from '@firebase/firestore-types';
 import { Observable } from 'rxjs/observable';
-import { Todo, TodoId } from './todo.model';
+import { Todo, TodoMetadata } from './todo.model';
 
 @Injectable()
 export class TodoListService {
@@ -14,18 +14,19 @@ export class TodoListService {
     this.todoListsRef = db.collection('todo-lists');
   }
 
-  public fetch(id: string): Observable<TodoId[]> {
+  public fetch(id: string): Observable<TodoMetadata[]> {
     if (!id) {
       throw Error('Todo list ID should be provided!');
     }
 
-    this.currentList = this.todoListsRef.doc(id).collection<Todo>('todos', ref => ref.orderBy('created', 'desc'));
+    this.currentList = this.todoListsRef.doc(id).collection<Todo>('todos', ref => ref.orderBy('created'));
 
-    return this.currentList.snapshotChanges().map(actions => {
+    return this.currentList.stateChanges().map(actions => {
       return actions.map(a => {
+        const type = a.type;
         const id = a.payload.doc.id;
         const data = a.payload.doc.data() as Todo;
-        return { id, ...data };
+        return { id, type, data };
       })
     })
   }
@@ -40,18 +41,15 @@ export class TodoListService {
     this.currentList.add({ ...todo, created: firebase.firestore.FieldValue.serverTimestamp() });
   }
 
-  public update(todo: TodoId) {
+  public update(todo: TodoMetadata) {
     if (!this.currentList) {
       throw Error('Сurrent list reference is not installed');
     }
 
-    const id = todo.id;
-    delete todo.id;
-
-    this.currentList.doc(id).update({ ...todo });
+    this.currentList.doc(todo.id).update(todo.data);
   }
 
-  public remove(todo: TodoId) {
+  public remove(todo: TodoMetadata) {
     if (!this.currentList) {
       throw Error('Сurrent list reference is not installed');
     }
