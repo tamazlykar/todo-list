@@ -1,4 +1,5 @@
-$app-width: 800px;
+$max-app-width: 800px;
+$min-app-width: 300px;
 
 .title {
   text-align: center;
@@ -11,10 +12,14 @@ $app-width: 800px;
 }
 
 .todo-list {
-  width: $app-width;
+  width: 100%;
+  max-width: $max-app-width;
+  min-width: $min-app-width;
 }
 
 .url-message {
-  width: $app-width;
+  margin-top: 20px;
+  max-width: $max-app-width;
+  min-width: $min-app-width;
   text-align: center;
 }
