@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.map((params: ParamMap) => params.get('key'))
+    this.route.paramMap.pipe(map((params: ParamMap) => params.get('key')))
       .subscribe(key => {
         this.key = key;
         if (key) {

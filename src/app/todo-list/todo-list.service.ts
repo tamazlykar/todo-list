@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
-import { DocumentReference, CollectionReference } from '@firebase/firestore-types';
-import { Observable } from 'rxjs/observable';
+import { DocumentReference } from '@firebase/firestore-types';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Todo, TodoMetadata } from './todo.model';
 
 @Injectable()
@@ -21,14 +22,14 @@ export class TodoListService {
 
     this.currentList = this.todoListsRef.doc(id).collection<Todo>('todos', ref => ref.orderBy('created'));
 
-    return this.currentList.stateChanges().map(actions => {
+    return this.currentList.stateChanges().pipe(map(actions => {
       return actions.map(a => {
         const type = a.type;
         const id = a.payload.doc.id;
         const data = a.payload.doc.data() as Todo;
         return { id, type, data };
-      })
-    })
+      });
+    }));
   }
 
   public add(todo: Todo) {
