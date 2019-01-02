@@ -28,7 +28,7 @@ export class TodoListComponent implements OnInit {
   }
 
   // Used by *ngFor to associate object or keys with particular DOM nodes
-  // Without trakBy todo-item.component will be recreated every time when we change data in the list
+  // Without trackBy todo-item.component will be recreated every time when we change data in the list
   public trackById(index, todo: TodoMetadata) {
     return todo.id;
   }

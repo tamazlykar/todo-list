@@ -112,7 +112,8 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "todo-list:serve"
+            "devServerTarget": "todo-list:serve",
+            "port": 4201
           }
         },
         "lint": {

@@ -123,7 +123,7 @@ export class TodoItemComponent {
 
   private handleModifiedChangeType(tempTodo: TodoMetadata, newTitle: string) {
     this.showDataModifiedModal(tempTodo.data.title, newTitle).then(decision => {
-      switch(decision) {
+      switch (decision) {
         case 'local':
           this.update();
           break;
@@ -131,7 +131,7 @@ export class TodoItemComponent {
           this._todo.data = tempTodo.data;
           break;
       }
-    })
+    });
   }
 
   private handleRemovedChangeType(title: string) {
@@ -145,7 +145,7 @@ export class TodoItemComponent {
           this.remove();
           break;
       }
-    })
+    });
   }
 
   private showDataModifiedModal(serverData: string, localData: string) {
