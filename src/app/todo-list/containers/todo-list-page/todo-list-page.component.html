@@ -1,0 +1,19 @@
+<h1 class="title">TODO List</h1>
+
+<div class="container">
+  <div class="todo-list">
+      <app-todo-list
+        [todos]="todos$ | async"
+        [completedTodosCount]="completedTodoCount$ | async"
+        (create)="onCreate($event)"
+        (update)="onUpdate($event)"
+        (delete)="onDelete($event)"
+        (editingTodo)="onEditingTodo($event)"
+      ></app-todo-list>
+  </div>
+
+  <div *ngIf="listId$ | async" class="url-message">
+    <p>Your TODO List stored via URL: {{ url$ | async }}</p>
+    <p>Please save this URL to open this list in future.</p>
+  </div>
+</div>

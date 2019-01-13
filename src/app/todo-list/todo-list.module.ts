@@ -1,28 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BootstrapModalModule } from 'ngx-modialog/plugins/bootstrap';
 
-import { TodoListComponent } from './todo-list.component';
-import { TodoItemComponent } from './todo-item/todo-item.component';
-
-import { TodoListService } from './todo-list.service';
+import { TodoListPageComponent } from './containers';
+import { TodoItemComponent, TodoListComponent } from './components';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     BootstrapModalModule
   ],
   exports: [
     TodoListComponent
   ],
   declarations: [
+    TodoListPageComponent,
     TodoListComponent,
     TodoItemComponent
   ],
   providers: [
-    TodoListService
   ],
 })
 export class TodoListModule { }

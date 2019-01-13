@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+  <input
+    type="checkbox"
+    (change)="sendUpdateAction()"
+    formControlName="isCompleted"
+  />
+
+  <ng-container *ngIf="!isEditTitleMode; then label else input"></ng-container>
+  <ng-template #label>
+    <label (dblclick)="startEditMode()">{{ todo.title }}</label>
+  </ng-template>
+  <ng-template #input>
+    <input
+      class="edit"
+      formControlName="title"
+      (blur)="updateCanceled()"
+      (keyup.enter)="updateCompleted()"
+      (keyup.escape)="updateCanceled()"
+    />
+  </ng-template>
+</form>
+
+<button (click)="sendDeleteAction()">
+  <i class="fas fa-trash"></i>
+</button>
