@@ -11,7 +11,9 @@ import { environment } from '../environments/environment';
 
 import { ModalModule } from 'ngx-modialog';
 
-import { HomeModule } from './home/home.module';
+import { CoreModule } from './core/core.module';
+import { AppStoreModule } from './store/app-store.module';
+import { TodoListModule } from './todo-list/todo-list.module';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { HomeModule } from './home/home.module';
   ],
   imports: [
     BrowserModule,
+    CoreModule,
+    AppStoreModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
     ModalModule.forRoot(),
-    HomeModule
+    TodoListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,23 @@
+<div class="todo-list">
+  <div class="header">
+    <input
+      #todo
+      autofocus
+      placeholder="What needs to be done?"
+      (keyup.enter)="onCreate(todo.value); todo.value=''"
+    />
+  </div>
+  <div class="list">
+    <app-todo-item
+      class="todo-item"
+      *ngFor="let todo of todos; trackBy: trackById;"
+      [todo]="todo"
+      (updated)="onUpdate($event)"
+      (deleted)="onDelete($event)"
+      (editing)="onEditing(todo.id, $event)"
+    ></app-todo-item>
+  </div>
+  <div class="stat">
+    <label>{{ completedTodosCount }} of {{ todos.length }} done</label>
+  </div>
+</div>

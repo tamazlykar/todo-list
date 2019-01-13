@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
+import { TodoListPageComponent } from './todo-list/containers/todo-list-page/todo-list-page.component';
 
 const routes: Routes = [
-  { path: ':key', component: HomeComponent },
-  { path: '', component: HomeComponent }
+  { path: ':listId', component: TodoListPageComponent },
+  { path: '', component: TodoListPageComponent }
 ];
 
 @NgModule({

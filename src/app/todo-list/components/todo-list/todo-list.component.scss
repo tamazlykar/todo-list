@@ -1,4 +1,4 @@
-@import './variables';
+@import '../../variables';
 
 .todo-list {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -7,7 +7,6 @@
 
 .todo-item {
   display: flex;
-  align-items: center;
   box-sizing: border-box;
   list-style-type: none;
   padding-left: 10px;
@@ -37,8 +36,6 @@
   overflow-y: auto;
   height: $todo-item-height * $num-of-visible-todos;
 }
-
-
 
 .stat {
   border-top: 1px solid $line-divider-color;
