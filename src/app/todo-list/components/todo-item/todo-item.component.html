@@ -13,9 +13,9 @@
     <input
       class="edit"
       formControlName="title"
-      (blur)="updateCanceled()"
-      (keyup.enter)="updateCompleted()"
-      (keyup.escape)="updateCanceled()"
+      (blur)="editingCanceled()"
+      (keyup.enter)="editingComplete()"
+      (keyup.escape)="editingCanceled()"
     />
   </ng-template>
 </form>

@@ -72,18 +72,18 @@ export class TodoService {
 
     switch (serverVersion.changeType) {
       case ChangeType.modified: {
-        this.modificationConflictHandler(serverVersion, localVersion);
+        this.modificationConflictResolver(serverVersion, localVersion);
         break;
       }
       case ChangeType.removed: {
-        this.deletionConflictHandler(serverVersion, localVersion);
+        this.deletionConflictResolver(serverVersion, localVersion);
         break;
       }
       default: {}
     }
   }
 
-  private modificationConflictHandler(serverVersion: BackendTodo, localVersion: Todo) {
+  private modificationConflictResolver(serverVersion: BackendTodo, localVersion: Todo) {
     this.dialogService.showDataModifiedModal(serverVersion.title, localVersion.title)
       .then(result => {
         if (result === 'local') {
@@ -94,7 +94,7 @@ export class TodoService {
       });
   }
 
-  private deletionConflictHandler(serverVersion: BackendTodo, localVersion: Todo) {
+  private deletionConflictResolver(serverVersion: BackendTodo, localVersion: Todo) {
     this.dialogService.showDataRemovedModal(localVersion.title)
       .then(result => {
         if (result === 'create') {

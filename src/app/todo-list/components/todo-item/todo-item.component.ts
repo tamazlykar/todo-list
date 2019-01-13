@@ -42,12 +42,12 @@ export class TodoItemComponent implements OnChanges {
     this.editing.emit(true);
   }
 
-  public updateCompleted() {
+  public editingComplete() {
     this.finishEditMode();
     this.sendUpdateAction();
   }
 
-  public updateCanceled() {
+  public editingCanceled() {
     if (!this.isEditTitleMode) {
       return;
     }
